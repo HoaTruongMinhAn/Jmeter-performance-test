@@ -1498,7 +1498,7 @@
         <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="03 Assertion">
-        <intProp name="ThreadGroup.num_threads">1</intProp>
+        <intProp name="ThreadGroup.num_threads">10</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -1514,7 +1514,7 @@
           <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
         </CookieManager>
         <hashTree/>
-        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller" enabled="true">
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
         </TransactionController>
         <hashTree>
@@ -1579,7 +1579,7 @@
             </HeaderManager>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="authenticate" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="authenticate">
             <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
             <stringProp name="HTTPSampler.domain">the-internet.herokuapp.com</stringProp>
             <stringProp name="HTTPSampler.port">443</stringProp>
@@ -1666,7 +1666,7 @@
               </collectionProp>
             </HeaderManager>
             <hashTree/>
-            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Verify status code" enabled="true">
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Verify status code">
               <collectionProp name="Asserion.test_strings">
                 <stringProp name="49586">200</stringProp>
               </collectionProp>
@@ -1676,7 +1676,7 @@
               <intProp name="Assertion.test_type">8</intProp>
             </ResponseAssertion>
             <hashTree/>
-            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Verify response header" enabled="true">
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Verify response header">
               <collectionProp name="Asserion.test_strings">
                 <stringProp name="1067474899">X-Content-Type-Options: nosniff</stringProp>
                 <stringProp name="1782658683">X-Frame-Options: SAMEORIGIN</stringProp>
@@ -1685,10 +1685,10 @@
               <stringProp name="Assertion.custom_message"></stringProp>
               <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
               <boolProp name="Assertion.assume_success">false</boolProp>
-              <intProp name="Assertion.test_type">16</intProp>
+              <intProp name="Assertion.test_type">2</intProp>
             </ResponseAssertion>
             <hashTree/>
-            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Verify response body" enabled="true">
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Verify response body">
               <collectionProp name="Asserion.test_strings">
                 <stringProp name="1815544080">Welcome to the Secure Area. When you are done click logout below</stringProp>
               </collectionProp>
@@ -1697,6 +1697,16 @@
               <boolProp name="Assertion.assume_success">false</boolProp>
               <intProp name="Assertion.test_type">2</intProp>
             </ResponseAssertion>
+            <hashTree/>
+            <SizeAssertion guiclass="SizeAssertionGui" testclass="SizeAssertion" testname="Verify response size">
+              <stringProp name="Assertion.test_field">SizeAssertion.response_network_size</stringProp>
+              <stringProp name="SizeAssertion.size">4800</stringProp>
+              <intProp name="SizeAssertion.operator">5</intProp>
+            </SizeAssertion>
+            <hashTree/>
+            <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Verify response time">
+              <stringProp name="DurationAssertion.duration">600</stringProp>
+            </DurationAssertion>
             <hashTree/>
           </hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="logout">
@@ -1802,7 +1812,44 @@
           <stringProp name="filename"></stringProp>
         </ResultCollector>
         <hashTree/>
-        <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
+        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
