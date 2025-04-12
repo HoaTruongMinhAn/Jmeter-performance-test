@@ -1,0 +1,49 @@
+# JMeter specific ignores
+jmeter.log
+*.jtl
+*.log
+/test-output/
+/build/
+/target/
+/bin/
+/lib/ext/
+/backups/
+/report*/
+/results*/
+
+# JMeter result files
+*.csv
+*.xml
+*.dat
+*.jmx.20*
+*.hprof
+
+# JMeter generated files
+summary.*.json
+content/js/dashboard.js
+statistics.json
+
+# Test data files (unless you want to track them)
+# *.csv
+# *.xml
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files (if you use an IDE for JMeter script development)
+.idea/
+.vscode/
+*.iml
+.project
+.classpath
+.settings/
+
+# Optional: Ignore screenshots or other result artifacts
+screenshots/
+videos/
