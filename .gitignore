@@ -12,7 +12,7 @@ jmeter.log
 /results*/
 
 # JMeter result files
-*.csv
+#*.csv
 *.xml
 *.dat
 *.jmx.20*
