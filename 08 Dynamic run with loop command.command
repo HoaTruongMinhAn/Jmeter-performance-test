@@ -1,33 +1,58 @@
 #!/bin/bash
 
-# Always switch to the directory of the script itself
 cd "$(dirname "$0")"
 
-# Absolute or relative path to your CSV file
 CONFIG_CSV_FILE="07 config.csv"
-
-# Get current datetime (format: YYYYMMDD_HHMMSS)
-TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-
-# Define paths
 BASE_DIR="/Users/minhanhoa.truong/Project/Jmeter/01 - Jmeter performance test"
-REPORT_DIR="${BASE_DIR}/Report"
+PARENT_TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+REPORT_DIR="${BASE_DIR}/HTML_Report/${PARENT_TIMESTAMP}"
 FILENAME="06 Dynamic run with command"
 JMX_PATH="${BASE_DIR}/${FILENAME}.jmx"
-RESULT_CSV="${REPORT_DIR}/${FILENAME}_${TIMESTAMP}.csv"
-HTML_REPORT="${REPORT_DIR}/HTML_report_${FILENAME}_${TIMESTAMP}"
 
-# Path to your JMX file (optional, add -t flag if needed)
-JMX_FILE="06 Dynamic run with command.jmx"
+mkdir -p "$REPORT_DIR"
 
-# Change directory to where JMeter is installed (optional)
-# cd /path/to/apache-jmeter/bin
+# Determine delimiter: try tab first
+DELIM=$'\t'
+first_line=$(head -n 1 "$CONFIG_CSV_FILE")
+if [[ "$first_line" != *$'\t'* ]]; then
+  DELIM=','  # fallback to comma if no tab found
+fi
 
-# Skip the header and loop
-tail -n +2 "${CONFIG_CSV_FILE}" | while IFS=',' read -r threads rampUp loopCount; do
-  echo "Running JMeter with: threads=$threads, rampUp=$rampUp, loopCount=$loopCount"
-  #jmeter -Jthreads=$threads -JrampUp=$rampUp -JloopCount=$loopCount -n -t "${JMX_FILE}"
-  jmeter -Jthreads=$threads -JrampUp=$rampUp -JloopCount=$loopCount -n -t "${JMX_PATH}" -l "${RESULT_CSV}" -e -o "${HTML_REPORT}"
-done
+# Skip the header and process each row
+{
+  read -r _ # skip header
+  counter=1  # ✅ Start from 01
 
-echo "All JMeter tests completed."
+  while IFS="$DELIM" read -r testType threads rampUp loopCount || [[ -n "$testType" ]]; do
+    # Trim whitespace
+    testType=$(echo "$testType" | xargs)
+    threads=$(echo "$threads" | xargs)
+    rampUp=$(echo "$rampUp" | xargs)
+    loopCount=$(echo "$loopCount" | xargs)
+
+    # Skip empty or malformed rows
+    if [[ -z "$testType" || -z "$threads" || -z "$rampUp" || -z "$loopCount" ]]; then
+      continue
+    fi
+
+    # Format counter as two digits: 01, 02, etc.
+    index=$(printf "%02d" "$counter")
+
+    TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+    RESULT_CSV="${REPORT_DIR}/Scenario_${index}_${testType}_${TIMESTAMP}.csv"
+    HTML_REPORT="${REPORT_DIR}/Scenario_${index}_${testType}_${TIMESTAMP}"
+
+    echo "▶️  Running JMeter: $testType (threads=$threads, rampUp=$rampUp, loopCount=$loopCount)"
+    jmeter -n -t "$JMX_PATH" \
+           -Jthreads="$threads" \
+           -JrampUp="$rampUp" \
+           -JloopCount="$loopCount" \
+           -l "$RESULT_CSV" \
+           -e -o "$HTML_REPORT"
+
+    echo "✅ Report saved to: $HTML_REPORT"
+    ((counter++))
+  done
+} < "$CONFIG_CSV_FILE"
+
+echo "🎉 All JMeter test runs completed."

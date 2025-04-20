@@ -2,4 +2,5 @@
 load_test_1,1,1,2
 load_test_2,2,1,3
 stress_test,3,1,5
+stress_test_2,10,2,1
 spike_test,4,2,2
