@@ -5,10 +5,14 @@ TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 
 # Define paths
 BASE_DIR="/Users/minhanhoa.truong/Project/Jmeter/01 - Jmeter performance test"
+REPORT_DIR="${BASE_DIR}/Report"
 FILENAME="06 Dynamic run with command"
 JMX_PATH="${BASE_DIR}/${FILENAME}.jmx"
-RESULT_CSV="${BASE_DIR}/${FILENAME}_${TIMESTAMP}.csv"
-HTML_REPORT="${BASE_DIR}/HTML_report_${FILENAME}_${TIMESTAMP}"
+RESULT_CSV="${REPORT_DIR}/${FILENAME}_${TIMESTAMP}.csv"
+HTML_REPORT="${REPORT_DIR}/HTML_report_${FILENAME}_${TIMESTAMP}"
+
+# Create Report directory if it doesn't exist
+mkdir -p "$REPORT_DIR"
 
 # Run JMeter
 echo "🟡 Running JMeter test at ${TIMESTAMP}..."
